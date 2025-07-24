@@ -17,7 +17,7 @@ import java.net.URI;
 import java.util.Map;
 
 @Component
-@PropertySource("classpath:secure.properties")
+@PropertySource("classpath:testsecure.properties")
 public class KakaoAuth {
 
     @Value(value = "${REDIRECT_URL}")
