@@ -31,6 +31,12 @@ public class KakaoAuth {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
+    public String getKakaoLoginLink() {
+        return "https://kauth.kakao.com/oauth/authorize?response_type=code"
+                + "&client_id=" + REST_API_KEY
+                + "&redirect_uri=" + REDIRECT_URL;
+    }
+
     public KakaoTokenResponseDto getAccessToken() {
         String token_url = "https://kauth.kakao.com/oauth/token";
 

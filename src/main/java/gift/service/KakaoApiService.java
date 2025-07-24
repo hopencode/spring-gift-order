@@ -14,6 +14,10 @@ public class KakaoApiService {
         this.kakaoAuth = kakaoAuth;
     }
 
+    public String getKakaoLoginLink() {
+        return kakaoAuth.getKakaoLoginLink();
+    }
+
     public KakaoTokenResponseDto getAccessToken(){
         return kakaoAuth.getAccessToken();
     }
