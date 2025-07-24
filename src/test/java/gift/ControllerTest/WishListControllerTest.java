@@ -28,7 +28,8 @@ public class WishListControllerTest {
     private RestClient client = RestClient.builder().build();
 
     // abcd@pusan.ac.kr 계정 토큰
-    private String testJWTToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkQHB1c2FuLmFjLmtyIiwiZW1haWwiOiJhYmNkQHB1c2FuLmFjLmtyIn0.WGDriDkB5paOlUxALdjM4cZqo8ZE2YZ0yN8nwu5VjRk";
+    // 테스트용 application.properties의 jwt key 사용
+    private String testJWTToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkQHB1c2FuLmFjLmtyIiwiZW1haWwiOiJhYmNkQHB1c2FuLmFjLmtyIn0.QqSzAThxS8xkNyRsA0-QYXmAvvSTcvWY7EtDr-2zTnY";
     private String baseUrl;
 
     @BeforeEach

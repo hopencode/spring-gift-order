@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URI;
 
 @Component
-@PropertySource("classpath:secure.properties")
+@PropertySource("classpath:application.properties")
 public class KakaoAuth {
 
     @Value("${REDIRECT_URL}")
