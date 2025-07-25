@@ -17,17 +17,14 @@ import java.net.URI;
 import java.util.Map;
 
 @Component
-@PropertySource("classpath:testsecure.properties")
 public class KakaoAuth {
 
-    @Value(value = "${REDIRECT_URL}")
-    private String REDIRECT_URL;
+    private String REDIRECT_URL = "http://localhost:8080";
 
-    @Value(value = "${REST_API_KEY}")
+    @Value("${REST_API_KEY}")
     private String REST_API_KEY;
 
-    @Value(value = "${AUTHORIZATION_CODE}")
-    private String AUTHORIZATION_CODE;
+    private String AUTHORIZATION_CODE = "PH8mKes3U-YTvOEnejQ8w2r72M27ewoomRt_rqYKMaIQBR6wxOBF1wAAAAQKFxItAAABmEAWoGtSGUcvaFb1Eg";
 
     private final RestTemplate restTemplate = new RestTemplate();
 

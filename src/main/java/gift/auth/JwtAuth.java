@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 
 @Component
-@PropertySource("classpath:testsecure.properties")
 public class JwtAuth {
 
     @Value("${jwt.key}")

@@ -9,6 +9,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
@@ -21,6 +22,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOf
 @ContextConfiguration(classes = Application.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@ActiveProfiles("test")
 public class WishListControllerTest {
     @LocalServerPort
     private int port;
@@ -28,7 +30,7 @@ public class WishListControllerTest {
     private RestClient client = RestClient.builder().build();
 
     // abcd@pusan.ac.kr 계정 토큰
-    // 테스트용 application.properties의 jwt key 사용
+    // 테스트용 application-test.properties의 jwt key 사용
     private String testJWTToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkQHB1c2FuLmFjLmtyIiwiZW1haWwiOiJhYmNkQHB1c2FuLmFjLmtyIn0.QqSzAThxS8xkNyRsA0-QYXmAvvSTcvWY7EtDr-2zTnY";
     private String baseUrl;
 
