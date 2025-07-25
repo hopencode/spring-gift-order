@@ -32,7 +32,7 @@ public class ProductOptionController {
                 .getProductOptionPageList(productId, pageable)
                 .getContent();
 
-        return ResponseEntity.status(HttpStatus.OK).body(productOptions);
+        return ResponseEntity.ok(productOptions);
     }
 
     @PostMapping
@@ -42,7 +42,7 @@ public class ProductOptionController {
     ) {
         ProductOptionResponseDto responseDto = productOptionService.addProductOption(productId, productOptionRequestDto);
 
-        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+        return ResponseEntity.ok(responseDto);
     }
 
     @PutMapping("/{productOptionId}")
@@ -53,7 +53,7 @@ public class ProductOptionController {
     ) {
         ProductOptionResponseDto responseDto = productOptionService.updateProductOption(productId, productOptionId, productOptionRequestDto);
 
-        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+        return ResponseEntity.ok(responseDto);
     }
 
     @PatchMapping("/{productOptionId}/subtract")
@@ -62,7 +62,7 @@ public class ProductOptionController {
             @RequestBody @Valid ProductOptionRequestDto productOptionRequestDto
     ) {
         productOptionService.subtractProductOptionQuantity(productOptionId, productOptionRequestDto.getOptionQuantity());
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{productOptionId}")
@@ -70,6 +70,6 @@ public class ProductOptionController {
             @PathVariable("productOptionId") Long productOptionId
     ) {
         productOptionService.deleteProductOption(productOptionId);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.noContent().build();
     }
 }

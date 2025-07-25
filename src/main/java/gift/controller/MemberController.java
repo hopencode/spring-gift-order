@@ -30,6 +30,6 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity<MemberResponseDto> login(@Valid @RequestBody MemberRequestDto requestDto) {
         MemberResponseDto responseDto = memberService.login(requestDto);
-        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+        return ResponseEntity.ok(responseDto);
     }
 }

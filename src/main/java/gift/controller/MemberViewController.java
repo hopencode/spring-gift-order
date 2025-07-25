@@ -21,11 +21,9 @@ import java.util.List;
 public class MemberViewController {
 
     private final MemberService memberService;
-    private final JwtAuth jwtAuth;
 
-    public MemberViewController(MemberService memberService, JwtAuth jwtAuth) {
+    public MemberViewController(MemberService memberService) {
         this.memberService = memberService;
-        this.jwtAuth = jwtAuth;
     }
 
     @GetMapping("/membership")
@@ -62,13 +60,13 @@ public class MemberViewController {
         }
         try {
             MemberResponseDto responseDto = memberService.login(memberRequestDto);
-            return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+            return ResponseEntity.ok(responseDto);
         } catch (MemberExceptions.MemberNotFoundException e) {
             errors.add("등록되지 않은 이메일입니다.");
         } catch (MemberExceptions.InvalidPasswordException e) {
             errors.add("틀린 비밀번호입니다.");
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        return ResponseEntity.badRequest().body(errors);
     }
 
     @GetMapping("/myInfo")
@@ -80,6 +78,6 @@ public class MemberViewController {
     public ResponseEntity<?> getWishlist(@AuthenticatedUser String token) {
 
         List<String> wishlist = new ArrayList<>();
-        return ResponseEntity.status(HttpStatus.OK).body(wishlist);
+        return ResponseEntity.ok(wishlist);
     }
 }
