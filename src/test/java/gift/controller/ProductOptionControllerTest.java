@@ -1,11 +1,10 @@
-package gift.ControllerTest;
+package gift.controller;
 
 import gift.Application;
 import gift.dto.ProductOptionRequestDto;
 import gift.dto.ProductOptionResponseDto;
 import gift.dto.ProductRequestDto;
 import gift.dto.ProductResponseDto;
-import gift.entity.ProductOption;
 import gift.repository.ProductOptionRepository;
 import gift.repository.ProductRepository;
 import gift.service.ProductOptionService;

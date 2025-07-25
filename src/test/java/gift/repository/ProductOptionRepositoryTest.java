@@ -1,9 +1,7 @@
-package gift.RepositoryTest;
+package gift.repository;
 
 import gift.entity.Product;
 import gift.entity.ProductOption;
-import gift.repository.ProductOptionRepository;
-import gift.repository.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

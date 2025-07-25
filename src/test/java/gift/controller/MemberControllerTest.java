@@ -1,4 +1,4 @@
-package gift.ControllerTest;
+package gift.controller;
 
 import gift.Application;
 import gift.dto.MemberRequestDto;
