@@ -54,8 +54,6 @@ public class KakaoAuth {
     public String getUserEmail(String accessToken) {
         String token_url = "https://kapi.kakao.com/v2/user/me";
 
-        System.out.println("Access token: " + accessToken);
-
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
@@ -68,7 +66,6 @@ public class KakaoAuth {
                 request,
                 String.class
         );
-        System.out.println("Kakao API raw response: " + response.getBody());
 
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> result = null;

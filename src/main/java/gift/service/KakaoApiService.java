@@ -21,13 +21,11 @@ public class KakaoApiService {
     public KakaoTokenResponseDto getAccessToken(String authCode) {
         KakaoTokenResponseDto responseDto = kakaoAuth.getAccessToken(authCode);
         accessToken = responseDto.accessToken();
-        System.out.println("Access token: " + accessToken);
 
         return responseDto;
     }
 
     public String getUserEmail() {
-        String email = kakaoAuth.getUserEmail(this.accessToken);
         System.out.println(email);
 
         return email;
