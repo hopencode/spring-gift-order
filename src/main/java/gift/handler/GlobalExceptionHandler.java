@@ -1,5 +1,6 @@
 package gift.handler;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import gift.exception.MemberExceptions;
 import gift.exception.ProductExceptions;
 import org.springframework.http.HttpStatus;
@@ -7,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -73,5 +75,20 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.UNAUTHORIZED)
                 .header("WWW-Authenticate", "Bearer")
                 .body(e.getMessage());
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
+        Throwable cause = ex.getCause();
+
+        if (cause instanceof JsonProcessingException) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("JSON 파싱 오류: " + cause.getMessage());
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("서버 오류: " + ex.getMessage());
     }
 }

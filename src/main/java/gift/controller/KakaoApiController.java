@@ -1,6 +1,5 @@
 package gift.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import gift.service.KakaoApiService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
@@ -27,8 +26,8 @@ public class KakaoApiController {
     }
 
     @GetMapping("/email")
-    public ResponseEntity<String> getUserEmail() throws JsonProcessingException {
+    public ResponseEntity<String> getUserEmail() {
         String email = kakaoApiService.getUserEmail();
-        return ResponseEntity.status(HttpStatus.OK).body(email != null ? email : "NO_EMAIL");
+        return ResponseEntity.status(HttpStatus.OK).body(email);
     }
 }

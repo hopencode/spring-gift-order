@@ -51,10 +51,10 @@ public class KakaoAuth {
         return response.getBody();
     }
 
-    public String getUserEmail(String accessToken) throws JsonProcessingException {
+    public String getUserEmail(String accessToken) {
         String token_url = "https://kapi.kakao.com/v2/user/me";
 
-        System.out.println(accessToken);
+        System.out.println("Access token: " + accessToken);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
@@ -71,12 +71,24 @@ public class KakaoAuth {
         System.out.println("Kakao API raw response: " + response.getBody());
 
         ObjectMapper mapper = new ObjectMapper();
-        Map<String, Object> result = mapper.readValue(response.getBody(), Map.class);
-
-        if (result.containsKey("kakao_account")) {
-            Map<String, Object> kakaoAccount = (Map<String, Object>) result.get("kakao_account");
-            return (String) kakaoAccount.get("email");
+        Map<String, Object> result = null;
+        try {
+            result = mapper.readValue(response.getBody(), Map.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
-        return null;
+
+        if (!result.containsKey("kakao_account")) {
+            throw new RuntimeException("카카오 계정 정보(kakao_account)가 응답에 없습니다.");
+        }
+
+        Map<String, Object> kakaoAccount = (Map<String, Object>) result.get("kakao_account");
+        String email = (String) kakaoAccount.get("email");
+
+        if (email == null) {
+            throw new RuntimeException("카카오 계정 정보에 이메일(email) 필드가 없습니다.");
+        }
+
+        return email;
     }
 }
