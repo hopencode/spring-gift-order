@@ -18,17 +18,9 @@ import java.io.IOException;
 public class KakaoApiController {
 
     private final KakaoApiService kakaoApiService;
-    private String accessToken = null;
 
     public KakaoApiController(KakaoApiService kakaoApiService) {
         this.kakaoApiService = kakaoApiService;
-    }
-
-    @GetMapping
-    public ResponseEntity<KakaoTokenResponseDto> getAccessToken() {
-        KakaoTokenResponseDto responseDto = kakaoApiService.getAccessToken();
-        accessToken = responseDto.getAccess_token();
-        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 
     @GetMapping("/login")
@@ -39,7 +31,7 @@ public class KakaoApiController {
 
     @GetMapping("/email")
     public ResponseEntity<String> getUserEmail() throws JsonProcessingException {
-        String email = kakaoApiService.getUserEmail(accessToken);
+        String email = kakaoApiService.getUserEmail();
         return ResponseEntity.status(HttpStatus.OK).body(email != null ? email : "NO_EMAIL");
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 public class KakaoApiService {
 
     private KakaoAuth kakaoAuth;
+    private String accessToken = null;
 
     public KakaoApiService(KakaoAuth kakaoAuth) {
         this.kakaoAuth = kakaoAuth;
@@ -18,11 +19,14 @@ public class KakaoApiService {
         return kakaoAuth.getKakaoLoginLink();
     }
 
-    public KakaoTokenResponseDto getAccessToken(){
-        return kakaoAuth.getAccessToken();
+    public KakaoTokenResponseDto getAccessToken(String authCode) {
+        KakaoTokenResponseDto responseDto = kakaoAuth.getAccessToken(authCode);
+        accessToken = responseDto.getAccess_token();
+
+        return responseDto;
     }
 
-    public String getUserEmail(String accessToken) throws JsonProcessingException {
-        return kakaoAuth.getUserEmail(accessToken);
+    public String getUserEmail() throws JsonProcessingException {
+        return kakaoAuth.getUserEmail(this.accessToken);
     }
 }

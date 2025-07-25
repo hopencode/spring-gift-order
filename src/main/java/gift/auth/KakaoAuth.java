@@ -19,12 +19,11 @@ import java.util.Map;
 @Component
 public class KakaoAuth {
 
-    private String REDIRECT_URL = "http://localhost:8080";
+    @Value("${REDIRECT_URL}")
+    private String REDIRECT_URL;
 
     @Value("${REST_API_KEY}")
     private String REST_API_KEY;
-
-    private String AUTHORIZATION_CODE = "PH8mKes3U-YTvOEnejQ8w2r72M27ewoomRt_rqYKMaIQBR6wxOBF1wAAAAQKFxItAAABmEAWoGtSGUcvaFb1Eg";
 
     private final RestTemplate restTemplate = new RestTemplate();
 
@@ -34,7 +33,7 @@ public class KakaoAuth {
                 + "&redirect_uri=" + REDIRECT_URL;
     }
 
-    public KakaoTokenResponseDto getAccessToken() {
+    public KakaoTokenResponseDto getAccessToken(String authCode) {
         String token_url = "https://kauth.kakao.com/oauth/token";
 
         HttpHeaders headers = new HttpHeaders();
@@ -43,7 +42,7 @@ public class KakaoAuth {
         body.add("grant_type", "authorization_code");
         body.add("client_id", REST_API_KEY);
         body.add("redirect_uri", REDIRECT_URL);
-        body.add("code", AUTHORIZATION_CODE);
+        body.add("code", authCode);
         var request = new RequestEntity<>(body, headers, HttpMethod.POST, URI.create(token_url));
 
         ResponseEntity<KakaoTokenResponseDto> response = restTemplate.exchange(
