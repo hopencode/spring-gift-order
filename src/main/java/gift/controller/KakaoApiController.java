@@ -1,9 +1,6 @@
 package gift.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import gift.auth.KakaoAuth;
-import gift.dto.KakaoTokenResponseDto;
-import gift.dto.ProductResponseDto;
 import gift.service.KakaoApiService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
