@@ -31,7 +31,7 @@ public class KakaoAuth {
                 + "&redirect_uri=" + REDIRECT_URL;
     }
 
-    public KakaoTokenResponseDto getAccessToken(String authCode) {
+    public KakaoTokenResponseDto getAccessToken(String code) {
         String token_url = "https://kauth.kakao.com/oauth/token";
 
         HttpHeaders headers = new HttpHeaders();
@@ -40,7 +40,7 @@ public class KakaoAuth {
         body.add("grant_type", "authorization_code");
         body.add("client_id", REST_API_KEY);
         body.add("redirect_uri", REDIRECT_URL);
-        body.add("code", authCode);
+        body.add("code", code);
         var request = new RequestEntity<>(body, headers, HttpMethod.POST, URI.create(token_url));
 
         ResponseEntity<KakaoTokenResponseDto> response = restTemplate.exchange(

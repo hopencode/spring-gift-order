@@ -18,8 +18,8 @@ public class KakaoApiService {
         return kakaoAuth.getKakaoLoginLink();
     }
 
-    public KakaoTokenResponseDto getAccessToken(String authCode) {
-        KakaoTokenResponseDto responseDto = kakaoAuth.getAccessToken(authCode);
+    public KakaoTokenResponseDto getAccessToken(String code) {
+        KakaoTokenResponseDto responseDto = kakaoAuth.getAccessToken(code);
         accessToken = responseDto.accessToken();
 
         return responseDto;

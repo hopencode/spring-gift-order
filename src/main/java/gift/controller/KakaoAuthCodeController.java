@@ -19,8 +19,8 @@ public class KakaoAuthCodeController {
     }
 
     @GetMapping
-    public ResponseEntity<KakaoTokenResponseDto> getAccessToken(@RequestParam("code") String authCode) {
-        KakaoTokenResponseDto responseDto = kakaoApiService.getAccessToken(authCode);
+    public ResponseEntity<KakaoTokenResponseDto> getAccessToken(@RequestParam("code") String code) {
+        KakaoTokenResponseDto responseDto = kakaoApiService.getAccessToken(code);
         return ResponseEntity.ok(responseDto);
     }
 }
