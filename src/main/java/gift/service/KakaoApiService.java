@@ -26,7 +26,7 @@ public class KakaoApiService {
     }
 
     public String getUserEmail() {
-        System.out.println(email);
+        String email = kakaoAuth.getUserEmail(this.accessToken);
 
         return email;
     }
