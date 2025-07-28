@@ -39,7 +39,7 @@ public class WishListController {
 
         List<ProductResponseDto> products = wishListService.findAllProductsFromWishList(email);
 
-        return ResponseEntity.status(HttpStatus.OK).body(products);
+        return ResponseEntity.ok(products);
     }
 
 
@@ -49,7 +49,7 @@ public class WishListController {
 
         List<ProductResponseDto> products = wishListService.addProductToWishListByEmail(email, productRequestDto);
 
-        return ResponseEntity.status(HttpStatus.OK).body(products);
+        return ResponseEntity.ok(products);
     }
 
     @DeleteMapping("/{productId}")
@@ -57,6 +57,6 @@ public class WishListController {
                                                           @PathVariable("productId") Long productId) {
 
         wishListService.deleteProductFromWishList(email, productId);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.noContent().build();
     }
 }
