@@ -1,10 +1,7 @@
 package gift.auth;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import gift.dto.KakaoTokenResponseDto;
 import gift.dto.KakaoUserResponseDto;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -15,7 +12,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.net.URI;
-import java.util.Map;
 
 @Component
 @ConfigurationProperties(prefix = "kakao")
