@@ -9,6 +9,7 @@ public class KakaoApiService {
 
     private final KakaoAuth kakaoAuth;
     private String accessToken = null;
+    private String email = null;
 
     public KakaoApiService(KakaoAuth kakaoAuth) {
         this.kakaoAuth = kakaoAuth;
@@ -27,6 +28,7 @@ public class KakaoApiService {
 
     public String getUserEmail() {
         String email = kakaoAuth.getUserEmail(this.accessToken);
+        this.email = email;
 
         return email;
     }

@@ -16,6 +16,13 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeException(RuntimeException e) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(e.getMessage());
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<?> handleIllegalArgumentException(IllegalArgumentException e) {
         return ResponseEntity
@@ -77,18 +84,10 @@ public class GlobalExceptionHandler {
                 .body(e.getMessage());
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
-        Throwable cause = ex.getCause();
-
-        if (cause instanceof JsonProcessingException) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body("JSON 파싱 오류: " + cause.getMessage());
-        }
-
+    @ExceptionHandler(HttpClientErrorException.class)
+    public ResponseEntity<String> handleHttpClientError(HttpClientErrorException e) {
         return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("서버 오류: " + ex.getMessage());
+                .status(HttpStatus.UNAUTHORIZED)
+                .body("인증 오류: access token이 유효하지 않거나 만료되었습니다.");
     }
 }
