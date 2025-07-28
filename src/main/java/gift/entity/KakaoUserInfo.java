@@ -1,5 +1,5 @@
 package gift.entity;
 
-public record KakaoUserEmail(
+public record KakaoUserInfo(
     String email
 ) {}

@@ -80,10 +80,10 @@ public class KakaoAuth {
                 KakaoUserResponseDto.class
         );
         KakaoUserResponseDto body = response.getBody();
-        if (body == null || body.kakao_account() == null || body.kakao_account().email() == null) {
+        if (body == null || body.kakaoUserInfo() == null || body.kakaoUserInfo().email() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "사용자의 이메일 정보를 가져올 수 없습니다.");
         }
 
-        return body.kakao_account().email();
+        return body.kakaoUserInfo().email();
     }
 }

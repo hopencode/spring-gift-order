@@ -1,8 +1,8 @@
 package gift.dto;
 
-import gift.entity.KakaoUserEmail;
+import gift.entity.KakaoUserInfo;
 
 public record KakaoUserResponseDto(
         Long id,
-        KakaoUserEmail kakao_account
+        KakaoUserInfo kakaoUserInfo
 ) {}
