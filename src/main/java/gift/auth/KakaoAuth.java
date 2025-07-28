@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.net.URI;
 import java.util.Map;
@@ -80,7 +81,7 @@ public class KakaoAuth {
         );
         KakaoUserResponseDto body = response.getBody();
         if (body == null || body.kakao_account() == null || body.kakao_account().email() == null) {
-            throw new RuntimeException("사용자의 이메일 정보를 가져올 수 없습니다.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "사용자의 이메일 정보를 가져올 수 없습니다.");
         }
 
         return body.kakao_account().email();

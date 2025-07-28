@@ -116,7 +116,7 @@ public class WishListControllerTest {
     @Order(4)
     void 위시_리스트_없는_상품_삭제_NOT_FOUND_테스트(){
         System.out.println("Delete Product to WishList NOT FOUND test");
-        String url = baseUrl + "/" + 1;
+        String url = baseUrl + "/" + "-1";
         assertThatExceptionOfType(HttpClientErrorException.NotFound.class)
                 .isThrownBy(
                         () -> client.delete()
