@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class KakaoApiService {
 
-    private KakaoAuth kakaoAuth;
+    private final KakaoAuth kakaoAuth;
     private String accessToken = null;
 
     public KakaoApiService(KakaoAuth kakaoAuth) {

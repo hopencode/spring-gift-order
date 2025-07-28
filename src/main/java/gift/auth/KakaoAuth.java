@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gift.dto.KakaoTokenResponseDto;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 
@@ -15,20 +16,27 @@ import java.net.URI;
 import java.util.Map;
 
 @Component
+@ConfigurationProperties(prefix = "kakao")
 public class KakaoAuth {
 
-    @Value("${REDIRECT_URL}")
-    private String REDIRECT_URL;
+    private String redirectUri;
 
-    @Value("${REST_API_KEY}")
-    private String REST_API_KEY;
+    private String restApiKey;
 
     private final RestTemplate restTemplate = new RestTemplate();
 
+    public void setRedirectUri(String redirectUri) {
+        this.redirectUri = redirectUri;
+    }
+
+    public void setRestApiKey(String restApiKey) {
+        this.restApiKey = restApiKey;
+    }
+
     public String getKakaoLoginLink() {
         return "https://kauth.kakao.com/oauth/authorize?response_type=code"
-                + "&client_id=" + REST_API_KEY
-                + "&redirect_uri=" + REDIRECT_URL;
+                + "&client_id=" + restApiKey
+                + "&redirect_uri=" + redirectUri;
     }
 
     public KakaoTokenResponseDto getAccessToken(String code) {
@@ -38,8 +46,8 @@ public class KakaoAuth {
         headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");
-        body.add("client_id", REST_API_KEY);
-        body.add("redirect_uri", REDIRECT_URL);
+        body.add("client_id", restApiKey);
+        body.add("redirect_uri", redirectUri);
         body.add("code", code);
         var request = new RequestEntity<>(body, headers, HttpMethod.POST, URI.create(token_url));
 

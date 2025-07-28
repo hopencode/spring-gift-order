@@ -5,16 +5,24 @@ import gift.exception.MemberExceptions;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 
 @Component
+@ConfigurationProperties(prefix = "jwt")
 public class JwtAuth {
 
-    @Value("${jwt.key}")
     private String jwtKey;
+
+    public String getJwtKey() {
+        return jwtKey;
+    }
+    public void setJwtKey(String jwtKey) {
+        this.jwtKey = jwtKey;
+    }
 
     public String createJwtToken(Member member){
         String accessToken = Jwts.builder()
