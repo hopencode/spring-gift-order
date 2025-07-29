@@ -2,6 +2,7 @@ package gift.auth;
 
 import gift.dto.KakaoTokenResponseDto;
 import gift.dto.KakaoUserResponseDto;
+import gift.dto.OrderResponseDto;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -35,7 +36,7 @@ public class KakaoAuth {
         return "https://kauth.kakao.com/oauth/authorize?response_type=code"
                 + "&client_id=" + restApiKey
                 + "&redirect_uri=" + redirectUri
-                + "&scope=account_email";
+                + "&scope=account_email,talk_message";
     }
 
     public KakaoTokenResponseDto getAccessToken(String code) {
@@ -71,7 +72,7 @@ public class KakaoAuth {
 
         ResponseEntity<KakaoUserResponseDto> response = restTemplate.exchange(
                 url,
-                HttpMethod.GET,
+                HttpMethod.POST,
                 request,
                 KakaoUserResponseDto.class
         );
@@ -81,5 +82,48 @@ public class KakaoAuth {
         }
 
         return body.kakaoUserInfo().email();
+    }
+
+    public void sendOrderMessage(String accessToken, OrderResponseDto orderResponseDto) {
+        String url = "https://kapi.kakao.com/v2/api/talk/memo/default/send";
+
+        String text = String.format(
+                "주문ID: %d\n옵션ID: %d\n수량: %d\n주문일시: %s\n메시지: %s",
+                orderResponseDto.id(),
+                orderResponseDto.optionId(),
+                orderResponseDto.quantity(),
+                orderResponseDto.orderDateTime(),
+                orderResponseDto.message()
+        );
+
+        String templateObject = String.format("""
+        {
+            "object_type": "text",
+            "text": "%s",
+            "button_title": "확인"
+        }
+        """, text.replace("\n", "\\n").replace("\"", "\\\""));
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
+        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+
+        MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
+        parameters.add("template_object", templateObject);
+
+        var request = new RequestEntity<>(parameters, headers, HttpMethod.POST, URI.create(url));
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                request,
+                String.class
+        );
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            System.out.println("카카오톡 메시지 전송 성공");
+        } else {
+            System.out.println("메시지 전송 실패: " + response.getBody());
+        }
     }
 }

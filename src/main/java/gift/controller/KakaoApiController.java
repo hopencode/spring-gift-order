@@ -19,14 +19,14 @@ public class KakaoApiController {
     }
 
     @GetMapping("/login")
-    public void loginToGetToken(HttpServletResponse response) throws IOException {
+    public void login(HttpServletResponse response) throws IOException {
         String kakaoLink = kakaoApiService.getKakaoLoginLink();
         response.sendRedirect(kakaoLink);
     }
 
     @GetMapping("/email")
     public ResponseEntity<String> getUserEmail() {
-        String email = kakaoApiService.getUserEmail();
+        String email = kakaoApiService.getUserEmail("");
         return ResponseEntity.ok(email);
     }
 }
