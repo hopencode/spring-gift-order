@@ -124,11 +124,5 @@ public class KakaoAuth {
                 request,
                 String.class
         );
-
-        if (response.getStatusCode() == HttpStatus.OK) {
-            System.out.println("카카오톡 메시지 전송 성공");
-        } else {
-            System.out.println("메시지 전송 실패: " + response.getBody());
-        }
     }
 }
