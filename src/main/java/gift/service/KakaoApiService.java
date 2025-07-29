@@ -10,8 +10,6 @@ public class KakaoApiService {
 
     private final KakaoAuth kakaoAuth;
 
-    private String accessToken = null;
-    private String email = null;
 
     public KakaoApiService(KakaoAuth kakaoAuth) {
         this.kakaoAuth = kakaoAuth;
@@ -22,17 +20,13 @@ public class KakaoApiService {
     }
 
     public KakaoTokenResponseDto getAccessToken(String code) {
-        KakaoTokenResponseDto responseDto = kakaoAuth.getAccessToken(code);
-        accessToken = responseDto.accessToken();
 
-        return responseDto;
+        return kakaoAuth.getAccessToken(code);
     }
 
     public String getUserEmail(String accessToken) {
-        String email = kakaoAuth.getUserEmail(this.accessToken);
-        this.email = email;
 
-        return email;
+        return kakaoAuth.getUserEmail(accessToken);
     }
 
     public void sendOrderMessage(String accessToken, OrderResponseDto orderResponseDto){

@@ -23,10 +23,4 @@ public class KakaoApiController {
         String kakaoLink = kakaoApiService.getKakaoLoginLink();
         response.sendRedirect(kakaoLink);
     }
-
-    @GetMapping("/email")
-    public ResponseEntity<String> getUserEmail() {
-        String email = kakaoApiService.getUserEmail("");
-        return ResponseEntity.ok(email);
-    }
 }
