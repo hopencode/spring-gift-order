@@ -23,4 +23,11 @@ public class KakaoApiController {
         String kakaoLink = kakaoApiService.getKakaoLoginLink();
         response.sendRedirect(kakaoLink);
     }
+
+    @GetMapping("/email")
+    public ResponseEntity<String> getUserEmail(@RequestHeader("Authorization") String authorizationHeader) {
+        String token = authorizationHeader.substring(7);
+        String email = kakaoApiService.getUserEmail(token);
+        return ResponseEntity.ok(email);
+    }
 }

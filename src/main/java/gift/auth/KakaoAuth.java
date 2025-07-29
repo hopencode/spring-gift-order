@@ -101,8 +101,8 @@ public class KakaoAuth {
           "object_type": "text",
           "text": "%s",
           "link": {
-            "web_url": "https://yourwebsite.com", 
-            "mobile_web_url": "https://yourwebsite.com"
+            "web_url": "https://productWeb.com", 
+            "mobile_web_url": "https://productMobileWeb.com"
           },
           "button_title": "확인"
         }
