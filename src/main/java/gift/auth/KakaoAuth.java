@@ -98,11 +98,16 @@ public class KakaoAuth {
 
         String templateObject = String.format("""
         {
-            "object_type": "text",
-            "text": "%s",
-            "button_title": "확인"
+          "object_type": "text",
+          "text": "%s",
+          "link": {
+            "web_url": "https://yourwebsite.com", 
+            "mobile_web_url": "https://yourwebsite.com"
+          },
+          "button_title": "확인"
         }
         """, text.replace("\n", "\\n").replace("\"", "\\\""));
+
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
