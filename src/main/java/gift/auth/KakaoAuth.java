@@ -2,10 +2,7 @@ package gift.auth;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gift.dto.KakaoMessageTextTemplateRequestDto;
-import gift.dto.KakaoTokenResponseDto;
-import gift.dto.KakaoUserResponseDto;
-import gift.dto.OrderResponseDto;
+import gift.dto.*;
 import gift.entity.Link;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.*;
@@ -118,11 +115,11 @@ public class KakaoAuth {
         headers.setBearerAuth(accessToken);
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(parameters, headers);
 
-        ResponseEntity<String> response = restTemplate.exchange(
+        ResponseEntity<KakaoMessageResultResponseDto> response = restTemplate.exchange(
                 url,
                 HttpMethod.POST,
                 request,
-                String.class
+                KakaoMessageResultResponseDto.class
         );
     }
 }
