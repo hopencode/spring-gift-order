@@ -9,12 +9,13 @@ public record OrderRequestDto (
         int quantity,
         String message
 ){
-    public Order toOrderEntity() {
+    public Order toOrderEntity(String email) {
         return new Order(
                 optionId,
                 quantity,
                 LocalDateTime.now(),
-                message
+                message,
+                email
         );
     }
 }

@@ -19,13 +19,16 @@ public class Order {
 
     private String message;
 
+    private String email;
+
     protected Order() {}
 
-    public Order(Long optionId, int quantity, LocalDateTime orderDateTime, String message) {
+    public Order(Long optionId, int quantity, LocalDateTime orderDateTime, String message, String email) {
         this.optionId = optionId;
         this.quantity = quantity;
         this.orderDateTime = orderDateTime;
         this.message = message;
+        this.email = email;
     }
 
     public Long getId() {
