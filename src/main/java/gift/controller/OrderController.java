@@ -1,7 +1,6 @@
 package gift.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import gift.annotation.AuthenticatedUser;
+import gift.annotation.AccessTokenFromJwtToken;
 import gift.dto.OrderRequestDto;
 import gift.dto.OrderResponseDto;
 import gift.service.OrderService;
@@ -21,9 +20,8 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<OrderResponseDto> createOrder(@RequestBody OrderRequestDto requestDto,
-                                                        @RequestHeader("Authorization") String authorizationHeader) {
-        String token = authorizationHeader.substring(7);
-        OrderResponseDto responseDto = orderService.createOrder(token, requestDto);
+                                                        @AccessTokenFromJwtToken String accessToken) {
+        OrderResponseDto responseDto = orderService.createOrder(accessToken, requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 }

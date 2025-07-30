@@ -1,5 +1,7 @@
 package gift.controller;
 
+import gift.annotation.AccessTokenFromJwtToken;
+import gift.annotation.EmailFromJwtToken;
 import gift.service.KakaoApiService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
@@ -25,9 +27,10 @@ public class KakaoApiController {
     }
 
     @GetMapping("/email")
-    public ResponseEntity<String> getUserEmail(@RequestHeader("Authorization") String authorizationHeader) {
-        String token = authorizationHeader.substring(7);
-        String email = kakaoApiService.getUserEmail(token);
+    public ResponseEntity<String> getUserEmail(@AccessTokenFromJwtToken String accessToken) {
+        String email = kakaoApiService.getUserEmail(accessToken);
+        System.out.println(accessToken);
+        System.out.println(email);
         return ResponseEntity.ok(email);
     }
 }

@@ -29,12 +29,13 @@ public class KakaoAuthCodeController {
     @GetMapping
     public ResponseEntity<KakaoTokenWithJwtResponseDto> getAccessToken(@RequestParam("code") String code) {
         KakaoTokenResponseDto kakaoTokenResponseDto = kakaoApiService.getAccessToken(code);
-        String email = kakaoApiService.getUserEmail(kakaoTokenResponseDto.accessToken());
+        String accessToken = kakaoTokenResponseDto.accessToken();
+        String email = kakaoApiService.getUserEmail(accessToken);
         Member member = new Member(email, "12345678", true);
         if(!memberService.isEmailExists(email)) {
             memberService.add(member);
         }
-        String jwtToken = jwtAuth.createJwtToken(member);
+        String jwtToken = jwtAuth.createJwtToken(member, accessToken);
         KakaoTokenWithJwtResponseDto responseDto = new KakaoTokenWithJwtResponseDto(kakaoTokenResponseDto, jwtToken);
         return ResponseEntity.ok(responseDto);
     }

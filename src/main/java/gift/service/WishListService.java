@@ -49,7 +49,7 @@ public class WishListService {
     }
 
     public List<ProductResponseDto> addProductToWishListByEmail(String email, WishListProductRequestDto requestDto) {
-        //validateMemberExists(email);
+        validateMemberExists(email);
         Long productId = requestDto.getproductId();
         Product product = productService.findById(productId);
         WishList wish = new WishList(email, productId);
@@ -59,7 +59,7 @@ public class WishListService {
     }
 
     public void deleteProductFromWishList(String email, Long productId) {
-        //validateMemberExists(email);
+        validateMemberExists(email);
         WishList wishList = wishListRepository.findByEmailAndProductId(email, productId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "찜 목록에 해당 상품이 없습니다."));
 

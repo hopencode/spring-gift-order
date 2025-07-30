@@ -1,6 +1,6 @@
 package gift.handler;
 
-import gift.annotation.AuthenticatedUser;
+import gift.annotation.EmailFromJwtToken;
 import gift.exception.MemberExceptions;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -12,18 +12,18 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import gift.auth.JwtAuth;
 
 @Component
-public class TokenArgumentResolver implements HandlerMethodArgumentResolver {
+public class JwtEmailResolver implements HandlerMethodArgumentResolver {
 
     private final JwtAuth jwtAuth;
 
-    public TokenArgumentResolver(JwtAuth jwtAuth) {
+    public JwtEmailResolver(JwtAuth jwtAuth) {
         this.jwtAuth = jwtAuth;
     }
 
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(AuthenticatedUser.class)
+        return parameter.hasParameterAnnotation(EmailFromJwtToken.class)
                 && parameter.getParameterType().equals(String.class);
     }
 

@@ -1,6 +1,6 @@
 package gift.controller;
 
-import gift.annotation.AuthenticatedUser;
+import gift.annotation.EmailFromJwtToken;
 import gift.dto.ProductResponseDto;
 import gift.dto.WishListProductRequestDto;
 import gift.entity.WishList;
@@ -8,7 +8,6 @@ import gift.service.WishListService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
@@ -29,13 +28,13 @@ public class WishListController {
 
     @GetMapping
     public Page<WishList> getWishList(
-            @AuthenticatedUser String email,
+            @EmailFromJwtToken String email,
             @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         return wishListService.getWishListsByEmailAndPage(email, pageable);
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<ProductResponseDto>> getWishListsByEmail(@AuthenticatedUser String email) {
+    public ResponseEntity<List<ProductResponseDto>> getWishListsByEmail(@EmailFromJwtToken String email) {
 
         List<ProductResponseDto> products = wishListService.findAllProductsFromWishList(email);
 
@@ -44,7 +43,7 @@ public class WishListController {
 
 
     @PostMapping
-    public ResponseEntity<List<ProductResponseDto>> addProductToWishlist(@AuthenticatedUser String email,
+    public ResponseEntity<List<ProductResponseDto>> addProductToWishlist(@EmailFromJwtToken String email,
                                                                          @Valid @RequestBody WishListProductRequestDto productRequestDto) {
 
         List<ProductResponseDto> products = wishListService.addProductToWishListByEmail(email, productRequestDto);
@@ -53,7 +52,7 @@ public class WishListController {
     }
 
     @DeleteMapping("/{productId}")
-    public ResponseEntity<Void> deleteProductFromWishlist(@AuthenticatedUser String email,
+    public ResponseEntity<Void> deleteProductFromWishlist(@EmailFromJwtToken String email,
                                                           @PathVariable("productId") Long productId) {
 
         wishListService.deleteProductFromWishList(email, productId);
