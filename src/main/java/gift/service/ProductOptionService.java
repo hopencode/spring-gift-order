@@ -23,6 +23,11 @@ public class ProductOptionService {
         this.productService = productService;
     }
 
+    public ProductOption findProductOptionById(Long optionId) {
+        return productOptionRepository.findById(optionId)
+                .orElseThrow(() -> new NoSuchElementException("옵션을 찾을 수 없습니다."));
+    }
+
     public Page<ProductOptionResponseDto> getProductOptionPageList(Long productId, Pageable pageable) {
         return productOptionRepository
                 .findAllByProductId(productId, pageable)
@@ -46,8 +51,7 @@ public class ProductOptionService {
     public ProductOptionResponseDto updateProductOption(Long productId, Long productOptionId, ProductOptionRequestDto productOptionRequestDto) {
         Product product = productService.findById(productId);
 
-        ProductOption productOption = productOptionRepository.findById(productOptionId)
-                .orElseThrow(() -> new NoSuchElementException("옵션을 찾을 수 없습니다."));
+        ProductOption productOption = findProductOptionById(productOptionId);
 
         if (productOption.getProduct().getId() != product.getId()) {
             throw new ProductOptionExceptions.OptionAndProductMismatchException(product.getName(), productOption.getOptionName());
@@ -72,15 +76,13 @@ public class ProductOptionService {
 
     @Transactional
     public void subtractProductOptionQuantity(Long productOptionId, int num) {
-        ProductOption productOption = productOptionRepository.findById(productOptionId)
-                .orElseThrow(() -> new NoSuchElementException("옵션을 찾을 수 없습니다."));
+        ProductOption productOption = findProductOptionById(productOptionId);
 
         productOption.subOptionQuantity(num);
     }
 
     public void deleteProductOption(Long productOptionId) {
-        productOptionRepository.findById(productOptionId)
-                .orElseThrow(() -> new NoSuchElementException("옵션을 찾을 수 없습니다."));
+        findProductOptionById(productOptionId);
 
         productOptionRepository.deleteById(productOptionId);
     }

@@ -2,9 +2,8 @@ package gift.auth;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gift.dto.KakaoTokenResponseDto;
-import gift.dto.KakaoUserResponseDto;
-import org.springframework.beans.factory.annotation.Value;
+import gift.dto.*;
+import gift.entity.Link;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -15,7 +14,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.net.URI;
-import java.util.Map;
 
 @Component
 @ConfigurationProperties(prefix = "kakao")
@@ -39,7 +37,7 @@ public class KakaoAuth {
         return "https://kauth.kakao.com/oauth/authorize?response_type=code"
                 + "&client_id=" + restApiKey
                 + "&redirect_uri=" + redirectUri
-                + "&scope=account_email";
+                + "&scope=account_email,talk_message";
     }
 
     public KakaoTokenResponseDto getAccessToken(String code) {
@@ -67,7 +65,7 @@ public class KakaoAuth {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
-        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+        headers.setBearerAuth(accessToken);
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
         parameters.add("property_keys", "[\"kakao_account.email\"]");
 
@@ -75,7 +73,7 @@ public class KakaoAuth {
 
         ResponseEntity<KakaoUserResponseDto> response = restTemplate.exchange(
                 url,
-                HttpMethod.GET,
+                HttpMethod.POST,
                 request,
                 KakaoUserResponseDto.class
         );
@@ -85,5 +83,43 @@ public class KakaoAuth {
         }
 
         return body.kakaoUserInfo().email();
+    }
+
+    public void sendOrderMessage(String accessToken, OrderResponseDto orderResponseDto) {
+        String url = "https://kapi.kakao.com/v2/api/talk/memo/default/send";
+
+        String text = String.format(
+                "주문ID: %d\n옵션ID: %d\n수량: %d\n주문일시: %s\n메시지: %s",
+                orderResponseDto.id(),
+                orderResponseDto.optionId(),
+                orderResponseDto.quantity(),
+                orderResponseDto.orderDateTime(),
+                orderResponseDto.message()
+        );
+
+        Link link = new Link("https://productWeb.com", "https://productMobileWeb.com");
+        KakaoMessageTextTemplateRequestDto textTemplateObject = new KakaoMessageTextTemplateRequestDto("text", text, link, "확인");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json;
+        try {
+            json = objectMapper.writeValueAsString(textTemplateObject);
+        } catch (JsonProcessingException e) {
+            throw new IllegalArgumentException(e);
+        }
+
+        MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
+        parameters.add("template_object", json);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.setBearerAuth(accessToken);
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(parameters, headers);
+
+        ResponseEntity<KakaoMessageResultResponseDto> response = restTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                request,
+                KakaoMessageResultResponseDto.class
+        );
     }
 }

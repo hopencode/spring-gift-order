@@ -1,7 +1,6 @@
 package gift.controller;
 
-import gift.annotation.AuthenticatedUser;
-import gift.auth.JwtAuth;
+import gift.annotation.EmailFromJwtToken;
 import gift.dto.MemberRequestDto;
 import gift.dto.MemberResponseDto;
 import gift.exception.MemberExceptions;
@@ -75,7 +74,7 @@ public class MemberViewController {
     }
 
     @GetMapping("/wishlist")
-    public ResponseEntity<?> getWishlist(@AuthenticatedUser String token) {
+    public ResponseEntity<?> getWishlist(@EmailFromJwtToken String token) {
 
         List<String> wishlist = new ArrayList<>();
         return ResponseEntity.ok(wishlist);

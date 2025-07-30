@@ -29,6 +29,10 @@ public class WishListService {
         this.productService = productService;
     }
 
+    public boolean isWishListExistsByEmailAndProductId(String email, Long productId) {
+        return wishListRepository.existsByEmailAndProductId(email, productId);
+    }
+
     public Page<WishList> getWishListsByEmailAndPage(String email, Pageable pageable) {
         return wishListRepository.findWishListByEmail(email, pageable);
     }

@@ -21,7 +21,7 @@ class MemberRepositoryTest {
 
     @Test
     void 회원_계정_정상_저장() {
-        Member member = new Member(null, "test@email.com", "12345678");
+        Member member = new Member(null, "test@email.com", "12345678", false);
 
         var result = memberRepository.save(member);
 
@@ -33,7 +33,7 @@ class MemberRepositoryTest {
 
     @Test
     void findByEmail_정상_테스트() {
-        Member member = new Member(null, "test@email.com", "12345678");
+        Member member = new Member(null, "test@email.com", "12345678", false);
         memberRepository.save(member);
 
         Optional<Member> found = memberRepository.findByEmail("test@email.com");

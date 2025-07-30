@@ -1,5 +1,7 @@
 package gift.controller;
 
+import gift.annotation.AccessTokenFromJwtToken;
+import gift.annotation.EmailFromJwtToken;
 import gift.service.KakaoApiService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +21,16 @@ public class KakaoApiController {
     }
 
     @GetMapping("/login")
-    public void loginToGetToken(HttpServletResponse response) throws IOException {
+    public void login(HttpServletResponse response) throws IOException {
         String kakaoLink = kakaoApiService.getKakaoLoginLink();
         response.sendRedirect(kakaoLink);
     }
 
     @GetMapping("/email")
-    public ResponseEntity<String> getUserEmail() {
-        String email = kakaoApiService.getUserEmail();
+    public ResponseEntity<String> getUserEmail(@AccessTokenFromJwtToken String accessToken) {
+        String email = kakaoApiService.getUserEmail(accessToken);
+        System.out.println(accessToken);
+        System.out.println(email);
         return ResponseEntity.ok(email);
     }
 }

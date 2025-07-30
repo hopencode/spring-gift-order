@@ -5,6 +5,7 @@ import gift.dto.ProductRequestDto;
 import gift.dto.ProductResponseDto;
 import gift.dto.WishListProductRequestDto;
 import gift.entity.WishList;
+import gift.repository.ProductOptionRepository;
 import gift.repository.ProductRepository;
 import gift.repository.WishListRepository;
 import gift.service.ProductService;
@@ -42,6 +43,9 @@ public class WishListControllerTest {
     private ProductRepository productRepository;
 
     @Autowired
+    private ProductOptionRepository productOptionRepository;
+
+    @Autowired
     private WishListRepository wishListRepository;
 
     // testID@pusan.ac.kr 계정 토큰
@@ -58,8 +62,9 @@ public class WishListControllerTest {
     }
 
     private void DBinit(){
-        productRepository.deleteAll();
         wishListRepository.deleteAll();
+        productOptionRepository.deleteAll();
+        productRepository.deleteAll();
 
         ProductResponseDto saveProduct1 = productService.addProduct(new ProductRequestDto("초코송이", 1000, "https://초코송이.jpg"));
         savedProduct1Id = saveProduct1.getId();

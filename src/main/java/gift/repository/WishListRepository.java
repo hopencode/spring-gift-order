@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface WishListRepository extends JpaRepository<WishList, Long> {
     Optional<WishList> findByEmailAndProductId(String email, Long productId);
 
+    boolean existsByEmailAndProductId(String email, Long productId);
+
     List<WishList> findWishListByEmail(String email);
 
     Page<WishList> findWishListByEmail(String email, Pageable pageable);

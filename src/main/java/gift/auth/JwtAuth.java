@@ -4,9 +4,7 @@ import gift.entity.Member;
 import gift.exception.MemberExceptions;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -24,13 +22,22 @@ public class JwtAuth {
         this.jwtKey = jwtKey;
     }
 
-    public String createJwtToken(Member member){
-        String accessToken = Jwts.builder()
+    public String createJwtToken(Member member, String accessToken) {
+        JwtBuilder builder = Jwts.builder()
                 .setSubject(member.getEmail())
-                .claim("email", member.getEmail())
+                .claim("email", member.getEmail());
+
+        if (accessToken != null) {
+            builder.claim("accessToken", accessToken);
+        }
+
+        return builder
                 .signWith(getSecretKeyFromJWTKey(jwtKey))
                 .compact();
-        return accessToken;
+    }
+
+    public String createJwtToken(Member member) {
+        return createJwtToken(member, null);
     }
 
     public String getEmailFromToken(String token) {
@@ -43,14 +50,23 @@ public class JwtAuth {
         return claims.get("email", String.class);
     }
 
-    public boolean validateToken(String token) {
+    public String getAccessTokenFromToken(String token) {
+        SecretKey key = getSecretKeyFromJWTKey(jwtKey);
+        Claims claims = Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+        return claims.get("accessToken", String.class);
+    }
+
+    public void validateToken(String token) {
         try {
             Claims claims = Jwts.parser()
                     .verifyWith(getSecretKeyFromJWTKey(jwtKey))
                     .build()
                     .parseSignedClaims(token)
                     .getPayload();
-            return true;
         } catch (ExpiredJwtException e) {
             throw new MemberExceptions.InvalidTokenException("토큰이 만료되었습니다.");
         } catch (UnsupportedJwtException e) {
