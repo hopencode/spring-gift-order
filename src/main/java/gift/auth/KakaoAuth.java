@@ -68,7 +68,7 @@ public class KakaoAuth {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
-        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+        headers.setBearerAuth(accessToken);
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
         parameters.add("property_keys", "[\"kakao_account.email\"]");
 
