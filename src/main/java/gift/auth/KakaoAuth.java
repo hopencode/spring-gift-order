@@ -1,8 +1,13 @@
 package gift.auth;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import gift.dto.KakaoMessageRequestDto;
 import gift.dto.KakaoTokenResponseDto;
 import gift.dto.KakaoUserResponseDto;
 import gift.dto.OrderResponseDto;
+import gift.entity.Link;
+import gift.entity.TemplateObject;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -96,27 +101,23 @@ public class KakaoAuth {
                 orderResponseDto.message()
         );
 
-        String templateObject = String.format("""
-        {
-          "object_type": "text",
-          "text": "%s",
-          "link": {
-            "web_url": "https://productWeb.com", 
-            "mobile_web_url": "https://productMobileWeb.com"
-          },
-          "button_title": "확인"
+        Link link = new Link("https://productWeb.com", "https://productMobileWeb.com");
+        TemplateObject templateObject = new TemplateObject("text", text, link, "확인");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json;
+        try {
+            json = objectMapper.writeValueAsString(templateObject);
+        } catch (JsonProcessingException e) {
+            throw new IllegalArgumentException(e);
         }
-        """, text.replace("\n", "\\n").replace("\"", "\\\""));
-
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
-        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
 
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
-        parameters.add("template_object", templateObject);
+        parameters.add("template_object", json);
 
-        var request = new RequestEntity<>(parameters, headers, HttpMethod.POST, URI.create(url));
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.setBearerAuth(accessToken);
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(parameters, headers);
 
         ResponseEntity<String> response = restTemplate.exchange(
                 url,

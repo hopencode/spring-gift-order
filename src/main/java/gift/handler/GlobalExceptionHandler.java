@@ -1,5 +1,6 @@
 package gift.handler;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import gift.exception.MemberExceptions;
 import gift.exception.ProductExceptions;
 import org.springframework.http.HttpStatus;

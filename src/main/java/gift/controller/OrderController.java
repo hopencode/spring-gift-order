@@ -1,5 +1,6 @@
 package gift.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import gift.annotation.AuthenticatedUser;
 import gift.dto.OrderRequestDto;
 import gift.dto.OrderResponseDto;

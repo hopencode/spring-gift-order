@@ -1,5 +1,6 @@
 package gift.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import gift.dto.OrderRequestDto;
 import gift.dto.OrderResponseDto;
 import gift.entity.Order;
