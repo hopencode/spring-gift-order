@@ -48,4 +48,9 @@ public class MemberService {
     public boolean isEmailExists(String email) {
         return memberRepository.findByEmail(email).isPresent();
     }
+
+    public String add(Member member) {
+        memberRepository.save(member);
+        return jwtAuth.createJwtToken(member);
+    }
 }
