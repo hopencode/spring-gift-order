@@ -1,8 +1,10 @@
-package gift.entity;
+package gift.dto;
+
+import gift.entity.Link;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record TemplateObject(
+public record KakaoMessageTextTemplateRequestDto(
         @JsonProperty("object_type") String objectType,
         @JsonProperty("text") String text,
         @JsonProperty("link") Link link,

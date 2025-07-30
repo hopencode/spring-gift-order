@@ -2,12 +2,11 @@ package gift.auth;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gift.dto.KakaoMessageRequestDto;
+import gift.dto.KakaoMessageTextTemplateRequestDto;
 import gift.dto.KakaoTokenResponseDto;
 import gift.dto.KakaoUserResponseDto;
 import gift.dto.OrderResponseDto;
 import gift.entity.Link;
-import gift.entity.TemplateObject;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -102,11 +101,11 @@ public class KakaoAuth {
         );
 
         Link link = new Link("https://productWeb.com", "https://productMobileWeb.com");
-        TemplateObject templateObject = new TemplateObject("text", text, link, "확인");
+        KakaoMessageTextTemplateRequestDto textTemplateObject = new KakaoMessageTextTemplateRequestDto("text", text, link, "확인");
         ObjectMapper objectMapper = new ObjectMapper();
         String json;
         try {
-            json = objectMapper.writeValueAsString(templateObject);
+            json = objectMapper.writeValueAsString(textTemplateObject);
         } catch (JsonProcessingException e) {
             throw new IllegalArgumentException(e);
         }
