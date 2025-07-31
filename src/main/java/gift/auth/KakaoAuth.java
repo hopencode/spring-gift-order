@@ -95,11 +95,11 @@ public class KakaoAuth {
                 주문일시: %s
                 메시지: %s
                 """,
-                        orderResponseDto.id(),
-                        orderResponseDto.optionId(),
-                        orderResponseDto.quantity(),
-                        orderResponseDto.orderDateTime(),
-                        orderResponseDto.message()
+                orderResponseDto.id(),
+                orderResponseDto.optionId(),
+                orderResponseDto.quantity(),
+                orderResponseDto.orderDateTime(),
+                orderResponseDto.message()
         );
 
 
